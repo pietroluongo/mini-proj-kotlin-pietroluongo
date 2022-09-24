@@ -1,6 +1,10 @@
 package store
 
-import org.junit.jupiter.api.*
+import com.github.pietroluongo.store.Electronic
+import com.github.pietroluongo.store.ElectronicType
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
 const val ELECTRONIC_IDENTIFIER = "electro"
 

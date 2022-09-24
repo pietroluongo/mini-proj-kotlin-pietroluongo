@@ -1,6 +1,12 @@
 package store
 
-import org.junit.jupiter.api.*
+import com.github.pietroluongo.store.Collectible
+import com.github.pietroluongo.store.CollectibleMaterialType
+import com.github.pietroluongo.store.CollectibleRelevance
+import com.github.pietroluongo.store.CollectibleType
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
 const val COLLECTIBLE_IDENTIFIER = "Collecto"
 
@@ -10,10 +16,10 @@ class CollectibleTest {
         0.0,
         0.0,
         COLLECTIBLE_IDENTIFIER,
-        CollectibleType.Book,
-        CollectibleMaterial.Metal,
-        4.5,
-        CollectibleRelevance.Rare
+        CollectibleType.Toy,
+        CollectibleMaterialType.Mixed,
+        2.2,
+        CollectibleRelevance.Common
     )
 
     @Test
