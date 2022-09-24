@@ -1,4 +1,9 @@
 package com.github.pietroluongo.store
 
-open class Product constructor(name: String, purchasePrice: Double, sellingPrice: Double, productCode: String) {
+interface Product {
+    val name: String
+    val purchasePrice: Double
+    var sellingPrice: Double
+    val productCode: String
 }
+
