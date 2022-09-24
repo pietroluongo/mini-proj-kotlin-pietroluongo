@@ -1,8 +1,7 @@
 package com.github.pietroluongo
 
-import com.github.pietroluongo.store.Product
+import com.github.pietroluongo.store.*
 
 fun main() {
-    val a = Product("product name", 0.0, 0.0, "productCode")
-    println("a: \n$a")
+    val clothing = Clothing("product name", 0.0, 0.0, "productCode", ClothingSizes.M, "red", "blue")
 }

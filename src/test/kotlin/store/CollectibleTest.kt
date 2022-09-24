@@ -1,12 +1,21 @@
 package store
+
 import org.junit.jupiter.api.*
-import com.github.pietroluongo.store.Clothing
-import com.github.pietroluongo.store.ClothingSizes
 
 const val COLLECTIBLE_IDENTIFIER = "Collecto"
 
 class CollectibleTest {
-    val collectibleTestUnit = Collectible("Collectible name", 0.0, 0.0, COLLECTIBLE_IDENTIFIER, CollectibleType.Book, CollectibleMaterial.Metal, 4.5, CollectibleRelevance.Rare)
+    val collectibleTestUnit = Collectible(
+        "Collectible name",
+        0.0,
+        0.0,
+        COLLECTIBLE_IDENTIFIER,
+        CollectibleType.Book,
+        CollectibleMaterial.Metal,
+        4.5,
+        CollectibleRelevance.Rare
+    )
+
     @Test
     @DisplayName("Collectible creation")
     fun testCreateClothes() {
