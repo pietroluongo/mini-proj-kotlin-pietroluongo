@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 const val COLLECTIBLE_IDENTIFIER = "Collecto"
 
 class CollectibleTest {
-    val collectibleTestUnit = Collectible(
+    private val collectibleTestUnit = Collectible(
         "Collectible name",
         0.0,
         0.0,

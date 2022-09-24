@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 const val ELECTRONIC_IDENTIFIER = "electro"
 
 class ElectronicsTest {
-    val electronicTestUnit =
+    private val electronicTestUnit =
         Electronic("Electronic name", 0.0, 0.0, ELECTRONIC_IDENTIFIER, ElectronicType.Game, "1.0", 1999)
 
     @Test

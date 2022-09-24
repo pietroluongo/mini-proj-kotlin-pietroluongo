@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test
 const val CLOTHING_IDENTIFIER = "cloth"
 
 class ClothingTest {
-    val clothing = Clothing("Clothing name", 0.0, 0.0, CLOTHING_IDENTIFIER, ClothingSizes.M, "red", "blue")
-    val clothingWithoutSecondaryColor =
+    private val clothing = Clothing("Clothing name", 0.0, 0.0, CLOTHING_IDENTIFIER, ClothingSizes.M, "red", "blue")
+    private val clothingWithoutSecondaryColor =
         Clothing("Clothing name", 0.0, 0.0, "$CLOTHING_IDENTIFIER-NOCOLOR", ClothingSizes.M, "red")
 
     @Test
