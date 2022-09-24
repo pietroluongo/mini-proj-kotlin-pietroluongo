@@ -15,7 +15,7 @@ class Clothing constructor(
 ) : Product {
     override val productCode = productCode
         get() {
-            return "C-${field.uppercase()}"
+            return "R-${field.uppercase()}"
         }
 
 }

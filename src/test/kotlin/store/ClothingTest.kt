@@ -23,7 +23,7 @@ class ClothingTest {
     @Test
     @DisplayName("Clothes identifier")
     fun testClothingIdentifier() {
-        Assertions.assertEquals("C-CLOTH", clothing.productCode)
+        Assertions.assertEquals("R-CLOTH", clothing.productCode)
     }
 
 }

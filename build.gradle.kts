@@ -25,9 +25,9 @@ tasks.withType<KotlinCompile> {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "MainKt"
+        attributes["Main-Class"] = "com.github.pietroluongo.MainKt"
     }
-    configurations["compileClasspath"].forEach {file: File ->
+    configurations["compileClasspath"].forEach { file: File ->
         from(zipTree(file.absoluteFile))
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
