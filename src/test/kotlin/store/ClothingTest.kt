@@ -12,6 +12,7 @@ class ClothingTest {
     @DisplayName("Clothes creation")
     fun testCreateClothes() {
         Assertions.assertNotNull(clothing)
+        Assertions.assertNotNull(clothingWithoutSecondaryColor)
     }
 
     @Test
