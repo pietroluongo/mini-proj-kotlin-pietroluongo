@@ -43,9 +43,11 @@ fun main(args: Array<String>) {
             controller.handleSale(it[CSV_SALE_CODE_COL], it[CSV_SALE_AMOUNT_COL].toInt())
         }
 
-        //println(controller)
         parser.writeStock(controller.getStock())
-        println(controller.getStock())
+        parser.writeCategoryStock(controller.getStockByCategory())
+        val monetaryData = controller.getMonetaryData()
+        parser.writeBalance(monetaryData.first, monetaryData.second, monetaryData.third)
+
 
     } catch (e: NumberFormatException) {
         val stackTrace = e.stackTrace

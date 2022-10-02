@@ -1,10 +1,16 @@
 package com.github.pietroluongo
 
 import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_AMOUNT_COL_NAME
+import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_BALANCE_IN_NAME
+import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_BALANCE_NAME
+import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_BALANCE_OUT_NAME
+import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_CATEGORY_COL_NAME
 import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_CODE_COL_NAME
 import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_NAME_COL_NAME
 import com.github.pietroluongo.Constants.Companion.INPUT_PURCHASES_FILENAME
 import com.github.pietroluongo.Constants.Companion.INPUT_SALES_FILENAME
+import com.github.pietroluongo.Constants.Companion.OUTPUT_BALANCE_FILENAME
+import com.github.pietroluongo.Constants.Companion.OUTPUT_CATEGORIES_STOCK_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_GENERAL_STOCK_FILENAME
 import java.io.BufferedReader
 import java.io.File
@@ -53,8 +59,43 @@ class CSVParser constructor(inputFolderName: String, private val outputFolderNam
 
         writeProductData()
 
-
         outputStockWriter.close()
+    }
+
+    fun writeCategoryStock(data: List<Pair<String, Int>>) {
+        val outputCategoryStockWriter = File("$outputFolderName/$OUTPUT_CATEGORIES_STOCK_FILENAME").bufferedWriter()
+        fun writeHeader() {
+            val headers = listOf(CSV_OUTPUT_CATEGORY_COL_NAME, CSV_OUTPUT_AMOUNT_COL_NAME)
+
+            headers.map { outputCategoryStockWriter.write("$it, ") }
+            outputCategoryStockWriter.newLine()
+        }
+
+        writeHeader()
+
+        fun writeProductData() {
+            data.map {
+                outputCategoryStockWriter.write("${it.first}, ${it.second}")
+                outputCategoryStockWriter.newLine()
+            }
+        }
+        writeProductData()
+        outputCategoryStockWriter.close()
+    }
+
+    fun writeBalance(influx: Double, out: Double, net: Double) {
+        val outputBalanceWriter = File("$outputFolderName/$OUTPUT_BALANCE_FILENAME").bufferedWriter()
+
+        fun writeDataToFile(colName: String, value: Double) {
+            outputBalanceWriter.write("$colName, $value")
+            outputBalanceWriter.newLine()
+        }
+
+        writeDataToFile(CSV_OUTPUT_BALANCE_IN_NAME, influx)
+        writeDataToFile(CSV_OUTPUT_BALANCE_OUT_NAME, out)
+        writeDataToFile(CSV_OUTPUT_BALANCE_NAME, net)
+
+        outputBalanceWriter.close()
     }
 
 }

@@ -36,6 +36,11 @@ class Constants {
         const val CSV_OUTPUT_CODE_COL_NAME = "CODIGO"
         const val CSV_OUTPUT_NAME_COL_NAME = "NOME"
         const val CSV_OUTPUT_AMOUNT_COL_NAME = "QUANTIDADE"
+        const val CSV_OUTPUT_CATEGORY_COL_NAME= "CATEGORIA"
+
+        const val CSV_OUTPUT_BALANCE_IN_NAME = "COMPRAS"
+        const val CSV_OUTPUT_BALANCE_OUT_NAME = "VENDAS"
+        const val CSV_OUTPUT_BALANCE_NAME = "BALANCETE"
     }
 
 }
