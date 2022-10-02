@@ -1,5 +1,6 @@
 package com.github.pietroluongo
 
+import com.github.pietroluongo.Constants.Companion.CSV_AMOUNT_COL
 import com.github.pietroluongo.Constants.Companion.CSV_CATEGORY_COL
 import com.github.pietroluongo.store.*
 
@@ -12,28 +13,24 @@ fun main(args: Array<String>) {
     try {
         val parser = CSVParser(inputFolderName, outputFolderName)
         val purchases = parser.readPurchases()
-        val products: List<Product?> = purchases.map {
+        val products: List<Pair<Product?, Int>> = purchases.map {
+            val productAmount = it[CSV_AMOUNT_COL].toInt()
             when (it[CSV_CATEGORY_COL]) {
-                "ROUPA" -> Clothing.initFromStringList(it)
-                "COLECIONAVEL" -> Collectible("", 0.0, 0.0, "", CollectibleType.Book, CollectibleMaterialType.Mixed, 2.0, CollectibleRelevance.Common)
-                "ELETRONICO" -> Electronic("", 0.0, 0.0, "", ElectronicType.Game, "", 1234)
-                else -> null
+                "ROUPA" -> Pair(Clothing.initFromStringList(it), productAmount)
+                "COLECIONAVEL" -> Pair(Collectible("", 0.0, 0.0, "", CollectibleType.Book, CollectibleMaterialType.Mixed, 2.0, CollectibleRelevance.Common), productAmount)
+                "ELETRONICO" -> Pair(Electronic("", 0.0, 0.0, "", ElectronicType.Game, "", 1234), productAmount)
+                else -> Pair(null, 0)
             }
         }
-        println(products)
+        val controller: Controller = Controller();
+        products.map {
+            it.first?.let { it1 -> controller.addProduct(it1, it!!.second) }
+        }
+        println(controller)
+
     }
     catch (e: Exception) {
         println("Failed to open input files")
         return
     }
-
-
-    val controller: Controller = Controller();
-    val clothing = Clothing("product name", 0.0, 0.0, "productCode", ClothingSizes.M, "red", "blue")
-    val collectible = Collectible("collectible name", 0.0, 0.0, "collectibleCode", CollectibleType.Book, CollectibleMaterialType.Mixed, 2.0, CollectibleRelevance.Common)
-    controller.addProduct(clothing, 1)
-    controller.addProduct(collectible,1 )
-    controller.addProduct(clothing, 1)
-    controller.addProduct(clothing, 1)
-    println(controller)
 }

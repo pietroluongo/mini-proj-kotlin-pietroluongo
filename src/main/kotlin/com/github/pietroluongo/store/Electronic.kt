@@ -5,6 +5,7 @@ enum class ElectronicType {
     Game,
     Portable,
     Other
+
 }
 
 class Electronic constructor(
