@@ -3,6 +3,7 @@ package com.github.pietroluongo.store
 import com.github.pietroluongo.Constants
 import com.github.pietroluongo.Constants.Companion.CSV_CODE_COL
 import com.github.pietroluongo.Constants.Companion.CSV_NAME_COL
+import com.github.pietroluongo.Constants.Companion.CSV_SIZE_COL
 import com.github.pietroluongo.Constants.Companion.CSV_TYPE_COL
 import com.github.pietroluongo.Constants.Companion.CSV_VERSION_COL
 import com.github.pietroluongo.Constants.Companion.CSV_YEAR_COL
@@ -16,11 +17,14 @@ enum class ElectronicType {
     companion object {
         fun fromString(str: String): ElectronicType {
             return when (str) {
-                "VIDEOGAME" -> ElectronicType.VideoGame
-                "GAME" -> ElectronicType.Game
-                "PORTABLE" -> ElectronicType.Portable
-                "OTHER" -> ElectronicType.Other
-                else -> ElectronicType.Other
+                "VIDEO-GAME" -> ElectronicType.VideoGame
+                "JOGO" -> ElectronicType.Game
+                "PORTATIL" -> ElectronicType.Portable
+                "OUTRO" -> ElectronicType.Other
+                else -> {
+                    println("[WARNING]: Missing Electronic Type string: \"$str\".");
+                    return ElectronicType.Other
+                }
             }
         }
     }

@@ -14,14 +14,17 @@ enum class ClothingSizes {
     companion object {
         fun getSizeFromString(sz: String): ClothingSizes {
             return when (sz) {
-                "PP" -> ClothingSizes.PP
-                "P" -> ClothingSizes.P
-                "M" -> ClothingSizes.M
-                "G" -> ClothingSizes.G
-                "GG" -> ClothingSizes.GG
-                "XG" -> ClothingSizes.XG
-                "XXG" -> ClothingSizes.XXG
-                else -> ClothingSizes.PP
+                "PP" -> PP
+                "P" -> P
+                "M" -> M
+                "G" -> G
+                "GG" -> GG
+                "XG" -> XG
+                "XXG" -> XXG
+                else -> {
+                    println("[WARNING]: Missing ClothingSizes string")
+                    PP
+                }
             }
         }
     }
