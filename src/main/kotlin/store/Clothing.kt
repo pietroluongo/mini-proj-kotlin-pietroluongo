@@ -18,4 +18,21 @@ class Clothing constructor(
             return "R-${field.uppercase()}"
         }
 
+    override fun equals(other: Any?): Boolean {
+        val conv = other as Clothing;
+        return this.productCode == conv.productCode;
+    }
+
+    override fun toString(): String {
+        return "{\n" +
+                "\tname: $name\n" +
+                "\tpurchasePrice: $purchasePrice\n" +
+                "\tsellingPrice: $sellingPrice\n" +
+                "\tproductCode: $productCode\n" +
+                "\tsize: $size\n" +
+                "\tprimaryColor: $primaryColor\n" +
+                "\tsecondaryColor: $secondaryColor\n}"
+
+        return super.toString()
+    }
 }

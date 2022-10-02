@@ -35,4 +35,18 @@ class Collectible constructor(
         get() {
             return "C-${field.uppercase()}"
         }
+
+    override fun equals(other: Any?): Boolean {
+        val conv = other as Collectible;
+        return this.productCode == conv.productCode;
+    }
+
+    override fun toString(): String {
+        return "{\n" +
+                "\tname: $name\n" +
+                "\tsellingPrice: $sellingPrice\n" +
+                "\tpurchasePrice: $purchasePrice\n" +
+                "\tproductCode: $productCode\n" +
+                "}"
+    }
 }

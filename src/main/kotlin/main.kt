@@ -1,7 +1,6 @@
 package com.github.pietroluongo
 
-import com.github.pietroluongo.store.Clothing
-import com.github.pietroluongo.store.ClothingSizes
+import com.github.pietroluongo.store.*
 
 const val INPUT_FOLDER_INDEX: Int = 0
 const val OUTPUT_FOLDER_INDEX: Int = 1
@@ -20,5 +19,12 @@ fun main(args: Array<String>) {
     args.forEach {
         println("${count++} $it")
     }
+    val controller: Controller = Controller();
     val clothing = Clothing("product name", 0.0, 0.0, "productCode", ClothingSizes.M, "red", "blue")
+    val collectible = Collectible("collectible name", 0.0, 0.0, "collectibleCode", CollectibleType.Book, CollectibleMaterialType.Mixed, 2.0, CollectibleRelevance.Common)
+    controller.addClothing(clothing)
+    controller.addCollectible(collectible)
+    controller.addClothing(clothing)
+    controller.addClothing(clothing)
+    println(controller)
 }
