@@ -2,10 +2,13 @@ package com.github.pietroluongo
 
 import com.github.pietroluongo.Constants.Companion.CSV_AMOUNT_COL
 import com.github.pietroluongo.Constants.Companion.CSV_CATEGORY_COL
+import com.github.pietroluongo.Constants.Companion.CSV_SALE_AMOUNT_COL
+import com.github.pietroluongo.Constants.Companion.CSV_SALE_CODE_COL
 import com.github.pietroluongo.store.*
 
 import com.github.pietroluongo.Constants.Companion.INPUT_FOLDER_INDEX
 import com.github.pietroluongo.Constants.Companion.OUTPUT_FOLDER_INDEX
+import java.io.FileNotFoundException
 import java.lang.NumberFormatException
 
 fun main(args: Array<String>) {
@@ -14,30 +17,47 @@ fun main(args: Array<String>) {
     try {
         val parser = CSVParser(inputFolderName, outputFolderName)
         val purchases = parser.readPurchases()
-        val products: List<Pair<Product?, Int>> = purchases.map {
-            val productAmount = it[CSV_AMOUNT_COL].toInt()
-            when (it[CSV_CATEGORY_COL]) {
-                "ROUPA" -> Pair(Clothing.initFromStringList(it), productAmount)
-                "COLECIONAVEL" -> Pair(Collectible.fromStringList(it), productAmount)
-                "ELETRONICO" -> Pair(Electronic.fromStringList(it), productAmount)
-                else -> Pair(null, 0)
+
+        fun createProducts(): List<Pair<Product?, Int>> {
+            return purchases.map {
+                val productAmount = it[CSV_AMOUNT_COL].toInt()
+                when (it[CSV_CATEGORY_COL]) {
+                    "ROUPA" -> Pair(Clothing.initFromStringList(it), productAmount)
+                    "COLECIONAVEL" -> Pair(Collectible.fromStringList(it), productAmount)
+                    "ELETRONICO" -> Pair(Electronic.fromStringList(it), productAmount)
+                    else -> Pair(null, 0)
+                }
             }
         }
+
+        val products = createProducts()
+
         val controller: Controller = Controller();
         products.map {
             it.first?.let { it1 -> controller.addProduct(it1, it.second) }
         }
-        println(controller)
 
-    }
-    catch(e: NumberFormatException) {
+        val sales = parser.readSales()
+
+        sales.forEach {
+            controller.handleSale(it[CSV_SALE_CODE_COL], it[CSV_SALE_AMOUNT_COL].toInt())
+        }
+
+        //println(controller)
+        parser.writeStock(controller.getStock())
+        println(controller.getStock())
+
+    } catch (e: NumberFormatException) {
         val stackTrace = e.stackTrace
         println("Failed to parse data.")
         println("Stack trace:")
         stackTrace.map { println(it) }
-    }
-    catch (e: Exception) {
-        println("Failed to open input files.")
+    } catch (e: FileNotFoundException) {
+        println("Failed to open input file.")
+        println(e)
+        return
+    } catch (e: Exception) {
+        println("Unknown error.")
         return
     }
 }

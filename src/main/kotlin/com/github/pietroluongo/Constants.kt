@@ -29,6 +29,13 @@ class Constants {
         const val CSV_MATERIAL_COL = 12
         const val CSV_RELEVANCE_COL = 13
 
+
+        const val CSV_SALE_CODE_COL = 0
+        const val CSV_SALE_AMOUNT_COL = 1
+
+        const val CSV_OUTPUT_CODE_COL_NAME = "CODIGO"
+        const val CSV_OUTPUT_NAME_COL_NAME = "NOME"
+        const val CSV_OUTPUT_AMOUNT_COL_NAME = "QUANTIDADE"
     }
 
 }
