@@ -1,7 +1,30 @@
 package com.github.pietroluongo.store
 
+import com.github.pietroluongo.Constants.Companion.CSV_CODE_COL
+import com.github.pietroluongo.Constants.Companion.CSV_NAME_COL
+import com.github.pietroluongo.Constants.Companion.CSV_PRIMARY_COLOR_COL
+import com.github.pietroluongo.Constants.Companion.CSV_PURCHASE_PRICE_COL
+import com.github.pietroluongo.Constants.Companion.CSV_SALE_PRICE_COL
+import com.github.pietroluongo.Constants.Companion.CSV_SECONDARY_COLOR_COL
+import com.github.pietroluongo.Constants.Companion.CSV_SIZE_COL
+
 enum class ClothingSizes {
-    PP, P, M, G, GG, XG, XXG
+    PP, P, M, G, GG, XG, XXG;
+
+    companion object {
+        fun getSizeFromString(sz: String): ClothingSizes {
+            return when (sz) {
+                "PP" -> ClothingSizes.PP
+                "P" -> ClothingSizes.P
+                "M" -> ClothingSizes.M
+                "G" -> ClothingSizes.G
+                "GG" -> ClothingSizes.GG
+                "XG" -> ClothingSizes.XG
+                "XXG" -> ClothingSizes.XXG
+                else -> ClothingSizes.PP
+            }
+        }
+    }
 }
 
 class Clothing constructor(
@@ -32,7 +55,22 @@ class Clothing constructor(
                 "\tsize: $size\n" +
                 "\tprimaryColor: $primaryColor\n" +
                 "\tsecondaryColor: $secondaryColor\n}"
+    }
 
-        return super.toString()
+    companion object {
+        fun initFromStringList(data: List<String>): Clothing {
+            val purchasePrice = data[CSV_PURCHASE_PRICE_COL].toDouble()
+            val salePrice = data[CSV_SALE_PRICE_COL].toDouble()
+            val secondaryColor = if (data[CSV_SECONDARY_COLOR_COL] == "-") null else data[CSV_SECONDARY_COLOR_COL]
+            return Clothing(
+                data[CSV_NAME_COL],
+                purchasePrice,
+                salePrice,
+                data[CSV_CODE_COL],
+                ClothingSizes.getSizeFromString(data[CSV_SIZE_COL]),
+                data[CSV_PRIMARY_COLOR_COL],
+                secondaryColor
+            )
+        }
     }
 }
