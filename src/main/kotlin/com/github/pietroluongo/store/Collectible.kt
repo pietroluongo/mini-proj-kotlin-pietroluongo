@@ -23,8 +23,8 @@ enum class CollectibleRelevance {
 
 class Collectible constructor(
     override val name: String,
-    override var sellingPrice: Double,
     override val purchasePrice: Double,
+    override var sellingPrice: Double,
     productCode: String,
     val type: CollectibleType,
     val material: CollectibleMaterialType,

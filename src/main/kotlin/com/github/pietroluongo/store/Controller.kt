@@ -5,6 +5,7 @@ class Controller constructor() {
 
     fun addProduct(prod: Product, amount: Int) {
         val productVal = inventory[prod]
+
         if(productVal == null) {
             inventory[prod] = amount
         }
@@ -15,7 +16,7 @@ class Controller constructor() {
     override fun toString(): String {
         // val clothString = clothingItems.entries.joinToString { "${it.key}: ${it.value}" }
         // val collectibleString = collectibleItems.entries.joinToString { "${it.key}: ${it.value}" }
-        val productsString = inventory.entries.joinToString { "${it.key}: ${it.value}" }
+        val productsString = inventory.entries.joinToString("\n") { "${it.key}: ${it.value}" }
         return "[Controller]\n" +
                 productsString
     }

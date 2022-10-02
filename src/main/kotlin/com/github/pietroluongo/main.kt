@@ -18,13 +18,13 @@ fun main(args: Array<String>) {
             when (it[CSV_CATEGORY_COL]) {
                 "ROUPA" -> Pair(Clothing.initFromStringList(it), productAmount)
                 "COLECIONAVEL" -> Pair(Collectible("", 0.0, 0.0, "", CollectibleType.Book, CollectibleMaterialType.Mixed, 2.0, CollectibleRelevance.Common), productAmount)
-                "ELETRONICO" -> Pair(Electronic("", 0.0, 0.0, "", ElectronicType.Game, "", 1234), productAmount)
+                "ELETRONICO" -> Pair(Electronic.fromStringList(it), productAmount)
                 else -> Pair(null, 0)
             }
         }
         val controller: Controller = Controller();
         products.map {
-            it.first?.let { it1 -> controller.addProduct(it1, it!!.second) }
+            it.first?.let { it1 -> controller.addProduct(it1, it.second) }
         }
         println(controller)
 
