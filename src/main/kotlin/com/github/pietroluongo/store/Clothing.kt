@@ -7,6 +7,24 @@ import com.github.pietroluongo.Constants.Companion.CSV_PURCHASE_PRICE_COL
 import com.github.pietroluongo.Constants.Companion.CSV_SALE_PRICE_COL
 import com.github.pietroluongo.Constants.Companion.CSV_SECONDARY_COLOR_COL
 import com.github.pietroluongo.Constants.Companion.CSV_SIZE_COL
+import com.github.pietroluongo.Constants.Companion.CSV_TYPE_COL
+
+enum class ClothingType {
+    Shirt, Hoodie, Accessory;
+    companion object {
+        fun getFromString(str: String): ClothingType {
+            return when (str) {
+                "CAMISA" -> Shirt
+                "MOLETOM" -> Hoodie
+                "ACESSORIO" -> Accessory
+                else -> {
+                    println("[WARNING]: Missing clothing type $str")
+                    Shirt
+                }
+            }
+        }
+    }
+}
 
 enum class ClothingSizes {
     PP, P, M, G, GG, XG, XXG;
@@ -37,6 +55,7 @@ class Clothing constructor(
     productCode: String,
     val size: ClothingSizes,
     val primaryColor: String,
+    val type: ClothingType,
     val secondaryColor: String? = null
 ) : Product {
     override val productCode = productCode
@@ -72,6 +91,7 @@ class Clothing constructor(
                 data[CSV_CODE_COL],
                 ClothingSizes.getSizeFromString(data[CSV_SIZE_COL]),
                 data[CSV_PRIMARY_COLOR_COL],
+                ClothingType.getFromString(data[CSV_TYPE_COL]),
                 secondaryColor
             )
         }

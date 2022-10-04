@@ -67,7 +67,7 @@ class Controller constructor() {
         filterList.addAll(filters)
     }
 
-    fun getFilteredObject(): List<Product> {
+    fun getFilteredObject(): List<Pair<Product, Int>> {
         println("Returning data with following filter(s): $filterList\n\n\n")
         val filterResults: List<List<Product>> = filterList.map { filter ->
             when (filter.type) {
@@ -89,9 +89,44 @@ class Controller constructor() {
                         if (it !is Clothing) {
                             false
                         } else
-                            (it as Clothing).primaryColor == filter.filterValue
+                            it.primaryColor == filter.filterValue
                     }.keys.toList()
                     filteredItems
+                }
+
+                FilterType.Type -> {
+                    when (filter.filterValue) {
+                        "CAMISA", "MOLETOM", "ACESSORIO" -> {
+                            inventory.filterKeys { it is Clothing }
+                                .filterKeys { (it as Clothing).type == ClothingType.getFromString(filter.filterValue) }.keys.toList()
+                        }
+
+                        "VIDEO-GAME", "JOGO", "PORTATIL" -> {
+                            inventory.filterKeys { it is Electronic }
+                                .filterKeys { (it as Electronic).type == ElectronicType.fromString(filter.filterValue) }.keys.toList()
+                        }
+
+                        "LIVRO", "BONECO" -> {
+                            inventory.filterKeys { it is Collectible }
+                                .filterKeys { (it as Collectible).type == CollectibleType.fromString(filter.filterValue) }.keys.toList()
+                        }
+
+                        "OUTRO" -> {
+                            inventory.filterKeys {
+                                when(it) {
+                                    is Collectible -> it.type == CollectibleType.Other
+                                    is Electronic -> it.type == ElectronicType.Other
+                                    else -> false
+
+                                }
+                            }.keys.toList()
+                        }
+
+                        else -> {
+                            println("[WARNING]: Missing filter type ${filter.filterValue}")
+                            return emptyList()
+                        }
+                    }
                 }
 
                 else -> {
@@ -100,12 +135,14 @@ class Controller constructor() {
                 }
             }
         }
-        val jointLists = filterResults.reduceRight { products, acc -> acc + products}
-        val finalIntersects = filterResults.foldRight(jointLists) {products, acc -> acc.intersect(products.toSet()).toList() }
+        val jointLists = filterResults.reduceRight { products, acc -> acc + products }
+        val finalIntersects =
+            filterResults.foldRight(jointLists) { products, acc -> acc.intersect(products.toSet()).toList() }.distinct()
 
-        println("intersections: $finalIntersects")
-        return finalIntersects
+        // println("intersections: $finalIntersects")
+        return finalIntersects.map {
+            Pair(it, inventory[it]!!.or(0))
+        }
     }
-
 
 }

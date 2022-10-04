@@ -91,8 +91,7 @@ class Collectible constructor(
         }
 
     override fun equals(other: Any?): Boolean {
-        val conv = other as Collectible;
-        return this.productCode == conv.productCode;
+        return this.productCode == (other as Product).productCode;
     }
 
     override fun toString(): String {

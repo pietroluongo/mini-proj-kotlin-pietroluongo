@@ -55,6 +55,10 @@ class Electronic constructor(
                 "\tfabricationYear: $fabricationYear\n}"
     }
 
+    override fun equals(other: Any?): Boolean {
+        return this.productCode == (other as Product).productCode
+    }
+
     companion object {
         fun fromStringList(data: List<String>): Electronic {
             val purchasePrice = data[Constants.CSV_PURCHASE_PRICE_COL].toDouble()
