@@ -27,7 +27,7 @@ class Controller constructor() {
         }
 
         if (productVal == null) {
-            println("[WARNING]: Missing product ID $prodCode")
+            println("[WARNING]: Missing product ID '$prodCode'")
             return
         }
         totalSalesValue += productVal.key.sellingPrice * amount
@@ -76,7 +76,7 @@ class Controller constructor() {
                         "ELETRONICO" -> inventory.filterKeys { it is Electronic }.keys.toList()
                         "COLECIONAVEL" -> inventory.filterKeys { it is Collectible }.keys.toList()
                         else -> {
-                            println("[WARNING]: Unknown filter category ${filter.filterValue}")
+                            println("[WARNING]: Unknown filter category '${filter.filterValue}'")
                             emptyList()
                         }
                     }
@@ -128,7 +128,7 @@ class Controller constructor() {
                         }
 
                         else -> {
-                            println("[WARNING]: Type ${filter.filterValue} is missing from type list.")
+                            println("[WARNING]: Type '${filter.filterValue}' is missing from type list.")
                             emptyList()
                         }
                     }
@@ -161,7 +161,7 @@ class Controller constructor() {
                 }
 
                 else -> {
-                    println("[WARNING]: Filter type not recognized: ${filter.type}")
+                    println("[WARNING]: Filter type not recognized: '${filter.type}'")
                     emptyList()
                 }
             }

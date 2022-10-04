@@ -22,7 +22,7 @@ enum class ElectronicType {
                 "PORTATIL" -> ElectronicType.Portable
                 "OUTRO" -> ElectronicType.Other
                 else -> {
-                    println("[WARNING]: Missing Electronic Type string: \"$str\".");
+                    println("[WARNING]: Missing Electronic Type string: '$str'.");
                     return ElectronicType.Other
                 }
             }

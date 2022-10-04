@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
     try {
         val parser = CSVParser(inputFolderName, outputFolderName)
         val purchases = parser.readPurchases()
+        val controller = Controller();
 
         fun createProducts(): List<Pair<Product?, Int>> {
             return purchases.map {
@@ -30,44 +31,53 @@ fun main(args: Array<String>) {
             }
         }
 
-        val products = createProducts()
+        fun doProductCreation() {
+            val products = createProducts()
 
-        val controller: Controller = Controller();
-        products.map {
-            it.first?.let { it1 -> controller.addProduct(it1, it.second) }
+            products.map {
+                it.first?.let { it1 -> controller.addProduct(it1, it.second) }
+            }
         }
 
-        val sales = parser.readSales()
+        fun doParserWriting() {
+            parser.writeStock(controller.getStock())
+            parser.writeCategoryStock(controller.getStockByCategory())
+            val monetaryData = controller.getMonetaryData()
+            parser.writeBalance(monetaryData.first, monetaryData.second, monetaryData.third)
 
-        sales.forEach {
-            controller.handleSale(it[CSV_SALE_CODE_COL], it[CSV_SALE_AMOUNT_COL].toInt())
         }
 
-        val filterStrings = parser.readFilters()
-
-        //println("Filters are: $filters")
-
-        val builtFilters = filterStrings.map { line ->
-            line.mapIndexed { index, s ->
-                Filter.fromString(s, index)
-            }.filterNotNull()
-        }.filterNotNull()
-
-        // println(builtFilters)
-
-        parser.writeStock(controller.getStock())
-        parser.writeCategoryStock(controller.getStockByCategory())
-        val monetaryData = controller.getMonetaryData()
-        parser.writeBalance(monetaryData.first, monetaryData.second, monetaryData.third)
-
-        val filterResults = builtFilters.map { filterList ->
-            controller.setFilters(filterList)
-            controller.getFilteredObject().sumOf { it.second }
+        fun doSaleProcessing() {
+            val sales = parser.readSales()
+            sales.forEach {
+                controller.handleSale(it[CSV_SALE_CODE_COL], it[CSV_SALE_AMOUNT_COL].toInt())
+            }
         }
 
-        println(filterResults)
-        parser.writeFilterResults(filterResults)
+        fun doFilteringProcessing() {
+            val filterStrings = parser.readFilters()
 
+            val builtFilters = filterStrings.map { line ->
+                line.mapIndexed { index, s ->
+                    Filter.fromString(s, index)
+                }.filterNotNull()
+            }
+
+            val filterResults = builtFilters.map { filterList ->
+                controller.setFilters(filterList)
+                controller.getFilteredObject().sumOf { it.second }
+            }
+            parser.writeFilterResults(filterResults)
+
+        }
+
+        doProductCreation()
+
+        doSaleProcessing()
+
+        doParserWriting()
+
+        doFilteringProcessing()
 
     } catch (e: NumberFormatException) {
         val stackTrace = e.stackTrace

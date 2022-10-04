@@ -35,7 +35,7 @@ enum class FilterType {
                 CSV_QUERY_MATERIAL_COL -> Material
                 CSV_QUERY_RELEVANCE_COL -> Relevance
                 else -> {
-                    println("[WARNING]: Failed to match filter column - $num")
+                    println("[WARNING]: Failed to match filter column - '$num'")
                     return None
                 }
             }
@@ -52,9 +52,10 @@ class Filter constructor(val type: FilterType, val filterValue: String) {
                 "\n}"
 
     }
+
     companion object {
         fun fromString(str: String, columnId: Int): Filter? {
-            if(str == "-") return null
+            if (str == "-") return null
             return Filter(FilterType.fromColumnNumber(columnId), str)
         }
         //fun fromStringList(strs: List<String>): List<Filter> {

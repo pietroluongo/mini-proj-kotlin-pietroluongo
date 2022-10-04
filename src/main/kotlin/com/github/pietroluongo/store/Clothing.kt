@@ -18,7 +18,7 @@ enum class ClothingType {
                 "MOLETOM" -> Hoodie
                 "ACESSORIO" -> Accessory
                 else -> {
-                    println("[WARNING]: Missing clothing type $str")
+                    println("[WARNING]: Missing clothing type '$str'")
                     Shirt
                 }
             }
@@ -40,7 +40,7 @@ enum class ClothingSizes {
                 "XG" -> XG
                 "XXG" -> XXG
                 else -> {
-                    println("[WARNING]: Missing ClothingSizes string")
+                    println("[WARNING]: Invalid clothing size string: '$sz'")
                     PP
                 }
             }
