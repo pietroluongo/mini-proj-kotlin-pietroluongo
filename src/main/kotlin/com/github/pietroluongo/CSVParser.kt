@@ -9,13 +9,15 @@ import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_CODE_COL_NAME
 import com.github.pietroluongo.Constants.Companion.CSV_OUTPUT_NAME_COL_NAME
 import com.github.pietroluongo.Constants.Companion.INPUT_PURCHASES_FILENAME
 import com.github.pietroluongo.Constants.Companion.INPUT_SALES_FILENAME
+import com.github.pietroluongo.Constants.Companion.INPUT_SEARCH_QUERY_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_BALANCE_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_CATEGORIES_STOCK_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_GENERAL_STOCK_FILENAME
 import java.io.BufferedReader
 import java.io.File
+import java.io.FileNotFoundException
 
-class CSVParser constructor(inputFolderName: String, private val outputFolderName: String) {
+class CSVParser constructor(private val inputFolderName: String, private val outputFolderName: String) {
     private val inputPurchasesReader: BufferedReader =
         File("$inputFolderName/$INPUT_PURCHASES_FILENAME").bufferedReader()
     private val inputSalesReader = File("$inputFolderName/$INPUT_SALES_FILENAME").bufferedReader()
@@ -36,6 +38,20 @@ class CSVParser constructor(inputFolderName: String, private val outputFolderNam
         val lines = inputSalesReader.readLines()
         inputSalesReader.close()
         return lines.map { it.uppercase().split(",") }
+    }
+
+    fun readFilters(): List<List<String>> {
+        return try {
+            val searchInput = File("$inputFolderName/$INPUT_SEARCH_QUERY_FILENAME").bufferedReader()
+            discardFirstLine(searchInput)
+            val lines = searchInput.readLines()
+            searchInput.close()
+            lines.map {it.uppercase().split(",")}
+
+        } catch(e: FileNotFoundException) {
+            println("No search file found. Skipping...")
+            emptyList()
+        }
     }
 
     fun writeStock(data: List<Triple<String, String, Int>>) {

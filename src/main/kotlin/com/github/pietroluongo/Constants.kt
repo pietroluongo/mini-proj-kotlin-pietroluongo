@@ -41,6 +41,17 @@ class Constants {
         const val CSV_OUTPUT_BALANCE_IN_NAME = "COMPRAS"
         const val CSV_OUTPUT_BALANCE_OUT_NAME = "VENDAS"
         const val CSV_OUTPUT_BALANCE_NAME = "BALANCETE"
+
+        const val CSV_QUERY_CATEGORY_COL = 0
+        const val CSV_QUERY_TYPE_COL = 1
+        const val CSV_QUERY_SIZE_COL = 2
+        const val CSV_QUERY_COLOR_COL = 3
+        const val CSV_QUERY_COLOR2_COL = 4
+        const val CSV_QUERY_VERSION_COL = 5
+        const val CSV_QUERY_YEAR_COL = 6
+        const val CSV_QUERY_MATERIAL_COL = 7
+        const val CSV_QUERY_RELEVANCE_COL = 8
+
     }
 
 }

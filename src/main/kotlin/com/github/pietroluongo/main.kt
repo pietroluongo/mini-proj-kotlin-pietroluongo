@@ -43,10 +43,27 @@ fun main(args: Array<String>) {
             controller.handleSale(it[CSV_SALE_CODE_COL], it[CSV_SALE_AMOUNT_COL].toInt())
         }
 
+        val filterStrings = parser.readFilters()
+
+        //println("Filters are: $filters")
+
+        val builtFilters = filterStrings.map { line ->
+            line.mapIndexed { index, s ->
+                Filter.fromString(s, index)
+            }.filterNotNull()
+        }.filterNotNull()
+
+        // println(builtFilters)
+
         parser.writeStock(controller.getStock())
         parser.writeCategoryStock(controller.getStockByCategory())
         val monetaryData = controller.getMonetaryData()
         parser.writeBalance(monetaryData.first, monetaryData.second, monetaryData.third)
+
+        builtFilters.map { filterList ->
+            controller.setFilters(filterList)
+            println(controller.getFilteredObject())
+        }
 
 
     } catch (e: NumberFormatException) {
@@ -59,7 +76,7 @@ fun main(args: Array<String>) {
         println(e)
         return
     } catch (e: Exception) {
-        println("Unknown error.")
+        println("Unknown error: $e")
         return
     }
 }
