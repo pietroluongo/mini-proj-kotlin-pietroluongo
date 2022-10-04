@@ -12,6 +12,10 @@ import java.io.FileNotFoundException
 import java.lang.NumberFormatException
 
 fun main(args: Array<String>) {
+    if(args.size < 2) {
+        println("Usage: ./program INPUT_FOLDER_NAME OUTPUT_FOLDER_NAME")
+        return
+    }
     val inputFolderName = args[INPUT_FOLDER_INDEX]
     val outputFolderName = args[OUTPUT_FOLDER_INDEX]
     try {
