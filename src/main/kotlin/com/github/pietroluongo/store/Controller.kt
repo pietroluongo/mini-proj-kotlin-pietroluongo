@@ -68,7 +68,6 @@ class Controller constructor() {
     }
 
     fun getFilteredObject(): List<Pair<Product, Int>> {
-        println("Returning data with following filter(s): $filterList\n\n\n")
         val filterResults: List<List<Product>> = filterList.map { filter ->
             when (filter.type) {
                 FilterType.Category -> {

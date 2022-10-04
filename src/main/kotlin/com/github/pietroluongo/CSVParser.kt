@@ -13,6 +13,7 @@ import com.github.pietroluongo.Constants.Companion.INPUT_SEARCH_QUERY_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_BALANCE_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_CATEGORIES_STOCK_FILENAME
 import com.github.pietroluongo.Constants.Companion.OUTPUT_GENERAL_STOCK_FILENAME
+import com.github.pietroluongo.Constants.Companion.OUTPUT_SEARCH_RESULT_FILENAME
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
@@ -52,6 +53,15 @@ class CSVParser constructor(private val inputFolderName: String, private val out
             println("No search file found. Skipping...")
             emptyList()
         }
+    }
+
+    fun writeFilterResults(data: List<Int>) {
+        val searchOutput = File("$outputFolderName/$OUTPUT_SEARCH_RESULT_FILENAME").bufferedWriter()
+        searchOutput.write("BUSCAS,QUANTIDADE\n")
+        data.mapIndexed { index, i ->
+            searchOutput.write("${index+1},$i\n")
+        }
+        searchOutput.close()
     }
 
     fun writeStock(data: List<Triple<String, String, Int>>) {

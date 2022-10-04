@@ -60,10 +60,13 @@ fun main(args: Array<String>) {
         val monetaryData = controller.getMonetaryData()
         parser.writeBalance(monetaryData.first, monetaryData.second, monetaryData.third)
 
-        builtFilters.map { filterList ->
+        val filterResults = builtFilters.map { filterList ->
             controller.setFilters(filterList)
-            println(controller.getFilteredObject())
+            controller.getFilteredObject().sumOf { it.second }
         }
+
+        println(filterResults)
+        parser.writeFilterResults(filterResults)
 
 
     } catch (e: NumberFormatException) {
