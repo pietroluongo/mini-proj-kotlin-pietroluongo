@@ -72,26 +72,33 @@ class Controller constructor() {
         val filterResults: List<List<Product>> = filterList.map { filter ->
             when (filter.type) {
                 FilterType.Category -> {
-                    val filteredItems: List<Product> = when (filter.filterValue) {
+                    when (filter.filterValue) {
                         "ROUPA" -> inventory.filterKeys { it is Clothing }.keys.toList()
                         "ELETRONICO" -> inventory.filterKeys { it is Electronic }.keys.toList()
                         "COLECIONAVEL" -> inventory.filterKeys { it is Collectible }.keys.toList()
                         else -> {
                             println("[WARNING]: Unknown filter category ${filter.filterValue}")
-                            emptyList<Product>()
+                            emptyList()
                         }
                     }
-                    filteredItems.map { it as Product }
                 }
 
                 FilterType.Color -> {
-                    val filteredItems = inventory.filterKeys {
+                    inventory.filterKeys {
                         if (it !is Clothing) {
                             false
                         } else
                             it.primaryColor == filter.filterValue
                     }.keys.toList()
-                    filteredItems
+                }
+
+                FilterType.SecondColor -> {
+                    inventory.filterKeys {
+                        if (it !is Clothing) {
+                            false
+                        } else
+                            it.secondaryColor == filter.filterValue
+                    }.keys.toList()
                 }
 
                 FilterType.Type -> {
@@ -113,25 +120,50 @@ class Controller constructor() {
 
                         "OUTRO" -> {
                             inventory.filterKeys {
-                                when(it) {
+                                when (it) {
                                     is Collectible -> it.type == CollectibleType.Other
                                     is Electronic -> it.type == ElectronicType.Other
                                     else -> false
-
                                 }
                             }.keys.toList()
                         }
 
                         else -> {
-                            println("[WARNING]: Missing filter type ${filter.filterValue}")
-                            return emptyList()
+                            println("[WARNING]: Type ${filter.filterValue} is missing from type list.")
+                            emptyList()
                         }
                     }
                 }
 
+                FilterType.Size -> {
+                    inventory.filterKeys { (it is Collectible) }
+                        .filterKeys { (it as Collectible).sizeInCm == filter.filterValue.toDouble() }.keys.toList()
+                }
+
+                FilterType.Year -> {
+                    inventory.filterKeys { (it is Electronic) }
+                        .filterKeys { (it as Electronic).fabricationYear == filter.filterValue.toInt() }
+                        .keys.toList()
+                }
+
+                FilterType.Version -> {
+                    inventory.filterKeys { it is Electronic }
+                        .filterKeys { (it as Electronic).version == filter.filterValue }.keys.toList()
+                }
+
+                FilterType.Material -> {
+                    inventory.filterKeys { it is Collectible }
+                        .filterKeys { (it as Collectible).material == CollectibleMaterialType.fromString(filter.filterValue) }.keys.toList()
+                }
+
+                FilterType.Relevance -> {
+                    inventory.filterKeys { it is Collectible }
+                        .filterKeys { (it as Collectible).relevance == CollectibleRelevance.fromString(filter.filterValue) }.keys.toList()
+                }
+
                 else -> {
                     println("[WARNING]: Filter type not recognized: ${filter.type}")
-                    emptyList<Product>()
+                    emptyList()
                 }
             }
         }

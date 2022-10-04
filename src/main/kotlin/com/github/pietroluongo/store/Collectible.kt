@@ -20,7 +20,7 @@ enum class CollectibleType {
                 "BONECO" -> Toy
                 "OUTROS" -> Other
                 else -> {
-                    println("[WARNING]: Missing Collectible type string.")
+                    println("[WARNING]: Missing Collectible type string: $str")
                     Other
                 }
             }
@@ -45,7 +45,7 @@ enum class CollectibleMaterialType {
                 "MISTURADO" -> Mixed
                 "OUTROS" -> Other
                 else -> {
-                    println("[WARNING]: Missing CollectibleMaterialType string.")
+                    println("[WARNING]: Missing CollectibleMaterialType string: $str")
                     Other
                 }
             }
